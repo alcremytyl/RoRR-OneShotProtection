@@ -1,4 +1,4 @@
--- One Shot Protection v1.0.1
+-- One Shot Protection v1.0.2
 -- Klehrik
 
 log.info("Successfully loaded ".._ENV["!guid"]..".")
