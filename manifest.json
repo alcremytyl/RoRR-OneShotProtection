@@ -1,6 +1,6 @@
 ﻿{
 	"name": "One_Shot_Protection",
-	"version_number": "1.0.2",
+	"version_number": "1.0.3",
 	"website_url": "https://github.com/Klehrik/RoRR-OneShotProtection",
 	"description": "Caps the maximum damage you can take in a single hit to 90% of your maximum health + current barrier, and grants half a second of invulnerability.",
 	"dependencies": []
