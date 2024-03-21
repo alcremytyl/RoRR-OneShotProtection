@@ -11,3 +11,8 @@
 * Made optimizations (to a few of my mods) to reduce load.
 * Adjusted max damage calculation a bit; it's now (max health * 0.9) + current barrier.
 * Updated Installation Instructions.
+
+### v1.0.4
+* Added a damage window for OSP to take effect.
+    * Generally you don't instantly die from a single hit, but rather several instances of damage at once, which the previous implementation did not protect against (if you want to keep that behavior, just keep using v1.0.3).
+* Increases iframes from 30 -> 45.

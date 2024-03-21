@@ -1,52 +1,48 @@
--- One Shot Protection v1.0.3
+-- One Shot Protection v1.0.4
 -- Klehrik
 
 log.info("Successfully loaded ".._ENV["!guid"]..".")
-require("./helper")
+Helper = require("./helper")
 
 local player = nil
+local stored_health = 0
+local osp_window = 0
 
-local stored_health = -1
+-- Parameters (in frames)
+local osp_window_max    = 30
+local iframes           = 45
 
 
 
 -- ========== Main ==========
 
 gm.pre_script_hook(gm.constants.__input_system_tick, function()
-    if player and gm._mod_instance_valid(player) == 1.0 then
-        -- Take no more than (90% of maximum health) + current barrier
-        local max_damage = (player.maxhp * 0.9) + player.barrier
-        local osp_value = math.max(stored_health - max_damage, 0)
 
-        if osp_value > 0 and player.hp < osp_value then
-            player.hp = osp_value
-            player.dead = false
+    -- Check if player exists
+    if Helper.does_instance_exist(player) then
+        local ninety = player.maxhp * 0.9
 
-            -- Give half a second of immunity
-            -- (Don't override existing immunity if it has more frames)
-            player.invincible = math.max(player.invincible, 30)
-        end
+        -- Set maximum "OSP window" when over 90% health
+        if player.hp > ninety then
+            osp_window = osp_window_max
+            stored_health = player.hp
 
-        stored_health = player.hp + player.barrier
+        -- Any damage dealt during the "OSP window" cannot be fatal
+        else
+            local minimum = stored_health - ninety
+            if player.hp < minimum and osp_window > 0 then
+                player.hp = minimum
+                player.dead = false
+                osp_window = 0
 
-    else
-        -- Using pref_name to identify which player is this client
-        local pref_name = ""
-        local init = find_cinstance_type(gm.constants.oInit)
-        if init then pref_name = init.pref_name end
-
-        -- Get the player that belongs to this client
-        local players = find_all_cinstance_type(gm.constants.oP)
-        if players then
-            for i = 1, #players do
-                if players[i] then
-                    if players[i].user_name == pref_name then
-                        player = players[i]
-                        break
-                    end
-                end
+                -- Give immunity frames
+                -- (Don't override existing immunity if it has more frames)
+                player.invincible = math.max(player.invincible, iframes)
             end
+
+            osp_window = math.max(osp_window - 1, 0)
         end
 
+    else player = Helper.get_client_player()
     end
 end)
