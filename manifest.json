@@ -1,9 +1,10 @@
 ﻿{
 	"name": "One_Shot_Protection",
-	"version_number": "1.0.4",
+	"version_number": "1.0.5",
 	"website_url": "https://github.com/Klehrik/RoRR-OneShotProtection",
 	"description": "Prevents you from immediately dying to attacks while over 90% health.",
 	"dependencies": [
-		"ReturnOfModding-ReturnOfModding-1.0.9"
+		"ReturnOfModding-ReturnOfModding-1.0.20",
+		"Klehrik-HelperFunctions-1.0.1"
 	]
 }

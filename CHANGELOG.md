@@ -16,3 +16,7 @@
 * Added a damage window for OSP to take effect.
     * Generally you don't instantly die from a single hit, but rather several instances of damage at once, which the previous implementation did not protect against (if you want to keep that behavior, just keep using v1.0.3).
 * Increases iframes from 30 -> 45.
+
+### v1.0.5
+* Updated all my mods to use a single helper file.
+* Updated installation instructions to use the mod manager instead.

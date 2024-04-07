@@ -1,8 +1,8 @@
--- One Shot Protection v1.0.4
+-- One Shot Protection v1.0.5
 -- Klehrik
 
 log.info("Successfully loaded ".._ENV["!guid"]..".")
-Helper = require("./helper")
+mods.on_all_mods_loaded(function() for k, v in pairs(mods) do if type(v) == "table" and v.hfuncs then Helper = v end end end)
 
 local player = nil
 local stored_health = 0
@@ -19,7 +19,7 @@ local iframes           = 45
 gm.pre_script_hook(gm.constants.__input_system_tick, function()
 
     -- Check if player exists
-    if Helper.does_instance_exist(player) then
+    if Helper.instance_exists(player) then
         local ninety = player.maxhp * 0.9
 
         -- Set maximum "OSP window" when over 90% health
