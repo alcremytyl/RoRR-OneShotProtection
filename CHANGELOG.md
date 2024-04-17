@@ -20,3 +20,6 @@
 ### v1.0.5
 * Updated all my mods to use a single helper file.
 * Updated installation instructions to use the mod manager instead.
+
+### v1.0.6
+* Now works in a way that doesn't leave the player "dead" for <1 frame.

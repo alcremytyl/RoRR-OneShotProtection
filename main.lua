@@ -1,4 +1,4 @@
--- One Shot Protection v1.0.5
+-- One Shot Protection v1.0.6
 -- Klehrik
 
 log.info("Successfully loaded ".._ENV["!guid"]..".")
@@ -27,22 +27,27 @@ gm.pre_script_hook(gm.constants.__input_system_tick, function()
             osp_window = osp_window_max
             stored_health = player.hp
 
-        -- Any damage dealt during the "OSP window" cannot be fatal
-        else
-            local minimum = stored_health - ninety
-            if player.hp < minimum and osp_window > 0 then
-                player.hp = minimum
-                player.dead = false
-                osp_window = 0
-
-                -- Give immunity frames
-                -- (Don't override existing immunity if it has more frames)
-                player.invincible = math.max(player.invincible, iframes)
-            end
-
-            osp_window = math.max(osp_window - 1, 0)
+        else osp_window = math.max(osp_window - 1, 0)
         end
 
     else player = Helper.get_client_player()
+    end
+end)
+
+
+gm.pre_script_hook(gm.constants.actor_on_damage_raw, function(self, other, result, args)
+    if self == player then
+        local ninety = self.maxhp * 0.9
+
+        -- Any damage dealt during the "OSP window" cannot be fatal
+        local minimum = stored_health - ninety
+        if self.hp < minimum and osp_window > 0 then
+            self.hp = minimum
+            osp_window = 0
+
+            -- Give immunity frames
+            -- (Don't override existing immunity if it has more frames)
+            self.invincible = math.max(self.invincible, iframes)
+        end
     end
 end)
