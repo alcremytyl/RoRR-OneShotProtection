@@ -1,4 +1,4 @@
--- One Shot Protection v1.0.6
+-- One Shot Protection v1.0.7
 -- Klehrik
 
 log.info("Successfully loaded ".._ENV["!guid"]..".")
@@ -12,6 +12,16 @@ local osp_window = 0
 local osp_window_max    = 30
 local iframes           = 45
 
+
+-- ========== ImGui ==========
+
+local one_shot_protection = true
+gui.add_to_menu_bar(function()
+    local new_value, clicked = ImGui.Checkbox("Enable One Shot Protection",one_shot_protection)
+    if clicked then
+        one_shot_protection = new_value
+    end
+end)
 
 
 -- ========== Main ==========
@@ -36,6 +46,10 @@ end)
 
 
 gm.pre_script_hook(gm.constants.actor_on_damage_raw, function(self, other, result, args)
+    if one_shot_protection == false then
+        return
+    end
+
     if self == player then
         local ninety = self.maxhp * 0.9
 
